@@ -6,6 +6,7 @@ int n;
 vector<int> x;
 int countSwap = 0;
 int countComparison = 0;
+int anjing = 0;
 
 void swap(int &x, int &y)
 {
