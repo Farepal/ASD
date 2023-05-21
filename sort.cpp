@@ -3,25 +3,31 @@
 using namespace std;
 
 int n;
-vector<int> x;
+vector<int> arr;
 int countSwap = 0;
 int countComparison = 0;
-int anjing = 0;
 
-void swap(int &x, int &y)
+void resetCount ()
 {
-    int temp = x;
-    x = y;
-    y = temp;
+    countSwap = 0;
+    countComparison = 0;
+}
+
+void swap(int *x, int *y)
+{
+    int temp = *x;
+    *x = *y;
+    *y = temp;
     countSwap++;
 }
 
 void show()
 {
+    cout << "A R R A Y setelah di-sorting" << endl;
     for (int i = 0; i < n; i++)
-    {
-        cout << x[i] << endl;
-    }
+        cout << arr[i] << " ";
+    cout << "\njumlah Penukaran       : " << countSwap << endl;
+    cout << "Jumlah perbandingan    : " << countComparison << endl;
 }
 
 void BubbleSort()
@@ -31,37 +37,34 @@ void BubbleSort()
         for (int j = 0; j < i; j++)
         {
             countComparison++;
-            if (x[j] > x[j + 1])
-                swap(x[j], x[j + 1]);
+            if (arr[j] > arr[j + 1])
+                swap(&arr[j], &arr[j + 1]);
         }
     }
 }
 
 void SelectionSort()
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n - 1; i++)
     {
-        int IndexTerbawah = i;
+        int Indexterbawah = i;
         for (int j = i + 1; j < n; j++)
         {
-            if (x[j] < x[IndexTerbawah])
-                IndexTerbawah = j;
+            countComparison++;
+            if (arr[j] < arr[Indexterbawah])
+                Indexterbawah = j;
         }
-        swap(x[i], x[IndexTerbawah]);
+
+        if (Indexterbawah != i)
+            swap(&arr[i], &arr[Indexterbawah]);
     }
 }
 
 void InsertionSort()
 {
-    for (int i = 0; i < n; i++)
-    {
-        int pos = i;
-        while (pos > 0 && x[pos] < x[pos - 1])
-        {
-            swap(x[pos], x[pos - 1]);
-            pos--;
-        }
-    }
+    for (int i = 1; i < n; i++)
+        for (int j = i - 1; j >= 0 && arr[j] > arr[j+1]; j--,countComparison++)
+            swap(&arr[j], &arr[j+1]);
 }
 
 void Merge(int aleft, int aright, int bleft, int bright)
@@ -70,31 +73,31 @@ void Merge(int aleft, int aright, int bleft, int bright)
     int aIndex = aleft, bIndex = bleft;
     while (aIndex <= aright && bIndex <= bright)
     {
-        if (x[aIndex] <= x[bIndex])
+        if (arr[aIndex] <= arr[bIndex])
         {
-            temp.push_back(x[aIndex]);
+            temp.push_back(arr[aIndex]);
             aIndex++;
         }
         else
         {
-            temp.push_back(x[bIndex]);
+            temp.push_back(arr[bIndex]);
             bIndex++;
         }
     }
 
     while (aIndex <= aright)
     {
-        temp.push_back(x[aIndex]);
+        temp.push_back(arr[aIndex]);
         aIndex++;
     }
     while (bIndex <= bright)
     {
-        temp.push_back(x[bIndex]);
+        temp.push_back(arr[bIndex]);
         bIndex++;
     }
     for (int i = 0; i < temp.size(); i++)
     {
-        x[aleft + i] = temp[i];
+        arr[aleft + i] = temp[i];
     }
 }
 
@@ -116,12 +119,13 @@ int main()
     {
         int t;
         cin >> t;
-        x.push_back(t);
+        arr.push_back(t);
     }
-    // BubbleSort();
+    resetCount();
+    BubbleSort();
     // SelectionSort();
     // InsertionSort();
-    MergeSort(0, n - 1);
+    // MergeSort(0, n - 1);
     show();
     return 0;
 }
