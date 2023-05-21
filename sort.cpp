@@ -36,7 +36,7 @@ void BubbleSort()
     {
         for (int j = 0; j < i; j++)
         {
-            countComparison++;
+            ++countComparison;
             if (arr[j] > arr[j + 1])
                 swap(&arr[j], &arr[j + 1]);
         }
@@ -50,7 +50,7 @@ void SelectionSort()
         int Indexterbawah = i;
         for (int j = i + 1; j < n; j++)
         {
-            countComparison++;
+            ++countComparison;
             if (arr[j] < arr[Indexterbawah])
                 Indexterbawah = j;
         }
@@ -63,8 +63,14 @@ void SelectionSort()
 void InsertionSort()
 {
     for (int i = 1; i < n; i++)
-        for (int j = i - 1; j >= 0 && arr[j] > arr[j+1]; j--,countComparison++)
-            swap(&arr[j], &arr[j+1]);
+        for (int j = i - 1; j >= 0; j--)
+        {
+            ++countComparison;
+            if (arr[j] > arr[j+1])
+                swap(&arr[j], &arr[j+1]);
+            else
+                break;
+        }
 }
 
 void Merge(int aleft, int aright, int bleft, int bright)
@@ -73,6 +79,7 @@ void Merge(int aleft, int aright, int bleft, int bright)
     int aIndex = aleft, bIndex = bleft;
     while (aIndex <= aright && bIndex <= bright)
     {
+        ++countComparison;
         if (arr[aIndex] <= arr[bIndex])
         {
             temp.push_back(arr[aIndex]);
@@ -84,7 +91,7 @@ void Merge(int aleft, int aright, int bleft, int bright)
             bIndex++;
         }
     }
-
+    //sisaan, sisaan pasti berupa angka yang paling gede
     while (aIndex <= aright)
     {
         temp.push_back(arr[aIndex]);
@@ -103,7 +110,7 @@ void Merge(int aleft, int aright, int bleft, int bright)
 
 void MergeSort(int left, int right)
 {
-    if (left != right)
+    if (left != right)//tidak akan menyorting satu data saja
     {
         int mid = (left + right) / 2;
         MergeSort(left, mid);
@@ -122,9 +129,9 @@ int main()
         arr.push_back(t);
     }
     resetCount();
-    BubbleSort();
+    // BubbleSort();
     // SelectionSort();
-    // InsertionSort();
+    InsertionSort();
     // MergeSort(0, n - 1);
     show();
     return 0;
