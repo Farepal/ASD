@@ -5,7 +5,7 @@ using namespace std;
 int n;
 vector<int> arr;
 int countSwap = 0;
-int countComparison = 0;//perbandingan antar data array
+int countComparison = 0; // perbandingan antar data array
 
 void input()
 {
@@ -60,7 +60,7 @@ int linearSearch(int angka)
 }
 int binarySearch(int angka)
 {
-    int low = 0, high = n-1, mid;
+    int low = 0, high = n - 1, mid;
     while (low <= high)
     {
         mid = (low + high) / 2;
@@ -115,16 +115,16 @@ void InsertionSort()
         }
 }
 void MergeSort(int left, int right)
-{//a maksudnya subarray kiri dan b itu subarray kanan
+{                     // a maksudnya subarray kiri dan b itu subarray kanan
     if (left < right) // tidak akan menyorting satu data saja
     {
         int mid = (left + right) / 2;
-        //PARTISI
+        // PARTISI
         MergeSort(left, mid);
         MergeSort(mid + 1, right);
 
         // Algoritma Merge
-        //Merge(left, mid, mid + 1, right)
+        // Merge(left, mid, mid + 1, right)
         vector<int> temp;
         int aIndex = left, bIndex = mid + 1;
 
@@ -161,14 +161,14 @@ void MergeSort(int left, int right)
 }
 void quickSort(int left, int right)
 {
-    //Operasi partisi, 
-    //operasi mencari indeks pivot, menempatkan subarray yg lebih kecil dari pivot di kiri
-    //dan menempatkan subarray yang lebih besar dari pivot di kanan
+    // Operasi partisi,
+    // operasi mencari indeks pivot, menempatkan subarray yg lebih kecil dari pivot di kiri
+    // dan menempatkan subarray yang lebih besar dari pivot di kanan
     if (left < right)
     {
         int pivot = arr[right];
-        int indexPositionShouldBe = left;//pivoIndex yang akan digantikan
-        for (int i = left; i < right; i++)//sampai right, karena right itu indeks pivot
+        int indexPositionShouldBe = left;  // pivoIndex yang akan digantikan
+        for (int i = left; i < right; i++) // sampai right, karena right itu indeks pivot
         {
             countComparison++;
             if (arr[i] < pivot)
@@ -184,18 +184,18 @@ void quickSort(int left, int right)
 }
 void countingSort(int k)
 {
-    vector <int> gelas (k, 0);
+    vector<int> gelas(k, 0);
 
     for (int i = 0; i < n; i++)
         gelas[arr[i]]++;
 
     for (int i = 1; i < k; i++)
-        gelas[i] = gelas[i] + gelas[i-1];
+        gelas[i] = gelas[i] + gelas[i - 1];
 
-    vector <int> temp (n);
-    for (int j = n-1; j >= 0; j--)
+    vector<int> temp(n);
+    for (int j = n - 1; j >= 0; j--)
     {
-        temp[gelas[arr[j]]-1] = arr[j];
+        temp[gelas[arr[j]] - 1] = arr[j];
         gelas[arr[j]]--;
     }
     arr = temp;
@@ -227,7 +227,7 @@ void radixSort()
     for (int pembagi = 1; mx / pembagi > 0; pembagi *= 10)
     {
         ////ITS CALLED COUNTING SORT BROO////
-        vector <int> digitCount (10, 0);//menggunakan 10 karena angka satu digit tertinggi adalah 9
+        vector<int> digitCount(10, 0); // menggunakan 10 karena angka satu digit tertinggi adalah 9
         for (int i = 0; i < n; i++)
         {
             getOneDigit = (arr[i] / pembagi) % 10;
@@ -235,12 +235,12 @@ void radixSort()
         }
 
         for (int j = 1; j < 10; j++)
-            digitCount[j] = digitCount[j] + digitCount[j-1];
+            digitCount[j] = digitCount[j] + digitCount[j - 1];
 
-        //create temporary array
-        vector <int> temp(n);
-        //kenapa dimulai dari n-1 karena yg sebelum tertinggi tetaplah tertinggi saat ada yg sama
-        for (int i = n-1; i >= 0; i--)
+        // create temporary array
+        vector<int> temp(n);
+        // kenapa dimulai dari n-1 karena yg sebelum tertinggi tetaplah tertinggi saat ada yg sama
+        for (int i = n - 1; i >= 0; i--)
         {
             getOneDigit = (arr[i] / pembagi) % 10;
             temp[digitCount[getOneDigit] - 1] = arr[i];
@@ -249,11 +249,157 @@ void radixSort()
         arr = temp;
     }
 }
+void heapSort()
+{
+    // Bulid max Heap
+    //Build max Heap menggunakan algporitma heapify
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
+        int largestIndex = i;
+        //di sini largestIndex bakal terus pindah ke bawah
+        //heapify algorithm
+        while (true)
+        {
+            int indexOfRootThatWillSwap = largestIndex;
+            int indLeftChild = largestIndex * 2 + 1;
+            int indRightChild = largestIndex * 2 + 2;
 
+            if (indLeftChild < n)
+                if (arr[indLeftChild] > arr[largestIndex])
+                {
+                    largestIndex = indLeftChild;
+                    countComparison++;
+                }
+
+            if (indRightChild < n)
+                if (arr[indRightChild] > arr[largestIndex])
+                {
+                    largestIndex = indRightChild;
+                    countComparison++;
+                }
+
+            if (largestIndex != indexOfRootThatWillSwap)
+                swap(&arr[largestIndex], &arr[indexOfRootThatWillSwap]);
+            else
+                break;
+        }
+    }
+
+    int tempSize = n;
+    for (int szTemp = n; ;)
+    {
+        swap(&arr[0], &arr[szTemp - 1]);
+        szTemp--;
+        if (szTemp <= 1)
+            break;
+        
+        //heapify algorithm kepada array dengan ukuran szTemp
+        int largestIndex = 0;
+        while (true)
+        {
+            int indexOfRootThatWillSwap = largestIndex;
+            int indLeftChild = largestIndex * 2 + 1;
+            int indRightChild = largestIndex * 2 + 2;
+
+            if (indLeftChild < szTemp)
+                if (arr[indLeftChild] > arr[largestIndex])
+                {
+                    largestIndex = indLeftChild;
+                    countComparison++;
+                }
+
+            if (indRightChild < szTemp)
+                if (arr[indRightChild] > arr[largestIndex])
+                {
+                    largestIndex = indRightChild;
+                    countComparison++;
+                }
+
+            if (largestIndex != indexOfRootThatWillSwap)
+                swap(&arr[largestIndex], &arr[indexOfRootThatWillSwap]);
+            else
+                break;
+        }
+    }
+}
 
 int main()
 {
     input();
+    vector <int> tempArr = arr;
+    cout << "PICK THE NUMBER OF SORT BY THE NUMBER" << endl;
+    cout << "By the way, just using non negative number for Radix Sort" << endl;
+    cout << "1. Bubble Sort 2. Selection Sort 3. Insertion Sort" << endl;
+    cout << "4. Quick Sort 5. Merge Sort 6. Shell Sort" << endl;
+    cout << "7. Radix Sort 8. Heap Sort" << endl;
+    int pilihan;
+    cout << "\nSilahkan pilih angka : "; 
+    cin >> pilihan;
+    cout << endl;
+    
+    while (true)
+    {
+        if (pilihan == 1)
+        {
+            cout << "Bubble Sort" << endl;
+            resetCount();
+            BubbleSort();
+            show();
+        }
+        else if (pilihan == 2)
+        {
+            cout << "Selection Sort" << endl;
+            resetCount();
+            SelectionSort();
+            show();
+        }
+        else if (pilihan == 3)
+        {
+            cout << "Insertion Sort" << endl;
+            resetCount();
+            InsertionSort();
+            show();
+        }
+        else if (pilihan == 4)
+        {
+            cout << "Quick Sort" << endl;
+            resetCount();
+            quickSort(0, n-1);
+            show();
+        }
+        else if (pilihan == 5)
+        {
+            cout << "Merge Sort" << endl;
+            resetCount();
+            MergeSort(0, n-1);
+            show();
+        }
+        else if (pilihan == 6)
+        {
+            cout << "Shell Sort" << endl;
+            resetCount();
+            shellSort();
+            show();
+        }
+        else if (pilihan == 7)
+        {
+            cout << "Radix Sort" << endl;
+            resetCount();
+            radixSort();
+            show();
+        }
+        else if (pilihan == 8)
+        {
+            cout << "Heap Sort" << endl;
+            resetCount();
+            heapSort();
+            show();
+        }
+        arr = tempArr;
+        cout << "\nSilahkan pilih angka : "; 
+        cin >> pilihan;
+        cout << endl;
+    }
     // resetCount();
     // BubbleSort();
     // SelectionSort();
@@ -263,7 +409,8 @@ int main()
     // MergeSort(0, n - 1);
     // shellSort();
     // radixSort();
-    // show();
-    showTLX();
+    // heapSort();
+    show();
+    // showTLX();
     return 0;
 }
