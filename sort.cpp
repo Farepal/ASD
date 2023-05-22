@@ -7,6 +7,59 @@ vector<int> arr;
 int countSwap = 0;
 int countComparison = 0; // perbandingan antar data array
 
+struct BST {
+    int value;
+    struct BST *leftChild, *rightChild;
+};
+void insertBST(struct BST** pointToRoot, int angkaMasukan)
+{
+    struct BST* nodeBaru = (struct BST*)malloc(sizeof(struct BST));
+    nodeBaru->value = angkaMasukan;
+    nodeBaru->rightChild = NULL;
+    nodeBaru->leftChild = NULL;
+    struct BST* penunjukSimpul = *pointToRoot;
+    if (*pointToRoot != NULL)
+    {
+        while (true)
+        {
+            if (angkaMasukan >= penunjukSimpul->value)
+            {
+                if (penunjukSimpul->rightChild != NULL)
+                    penunjukSimpul = penunjukSimpul->rightChild;
+                else
+                {
+                    penunjukSimpul->rightChild = nodeBaru;
+                    break;
+                }
+            }
+            else
+            {
+                if (penunjukSimpul->leftChild != NULL)
+                    penunjukSimpul = penunjukSimpul->leftChild;
+                else
+                {
+                    penunjukSimpul->leftChild = nodeBaru;
+                    break;
+                }
+            }
+        }
+    }
+    else
+        *pointToRoot = nodeBaru;
+}
+void createArrayByInorderTraversal(struct BST *simpul, int *index)
+{
+    if (simpul == NULL)
+        return;
+    else 
+    {
+        createArrayByInorderTraversal(simpul->leftChild, index);
+        arr[*index] = simpul->value;
+        *index = *index + 1;
+        createArrayByInorderTraversal(simpul->rightChild, index);
+    }
+}
+
 void input()
 {
     cin >> n;
@@ -285,8 +338,8 @@ void heapSort()
         }
     }
 
-    int tempSize = n;
-    for (int szTemp = n; ;)
+    int szTemp = n;
+    while (true)
     {
         swap(&arr[0], &arr[szTemp - 1]);
         szTemp--;
@@ -322,6 +375,14 @@ void heapSort()
         }
     }
 }
+void sortByBST()
+{
+    struct BST* root = NULL;
+    for (int i = 0; i < n; i++)
+        insertBST(&root, arr[i]);
+    int index = 0;
+    createArrayByInorderTraversal(root, &index);
+}
 
 int main()
 {
@@ -331,7 +392,7 @@ int main()
     cout << "By the way, just using non negative number for Radix Sort" << endl;
     cout << "1. Bubble Sort 2. Selection Sort 3. Insertion Sort" << endl;
     cout << "4. Quick Sort 5. Merge Sort 6. Shell Sort" << endl;
-    cout << "7. Radix Sort 8. Heap Sort" << endl;
+    cout << "7. Radix Sort 8. Heap Sort 9. Binary Search Tree Sort" << endl;
     int pilihan;
     cout << "\nSilahkan pilih angka : "; 
     cin >> pilihan;
@@ -395,22 +456,17 @@ int main()
             heapSort();
             show();
         }
+        else if (pilihan == 9)
+        {
+            cout << "Binary Search Tree Sort" << endl;
+            resetCount();
+            sortByBST();
+            show();
+        }
         arr = tempArr;
         cout << "\nSilahkan pilih angka : "; 
         cin >> pilihan;
         cout << endl;
     }
-    // resetCount();
-    // BubbleSort();
-    // SelectionSort();
-    // InsertionSort();
-    // countingSort(1001);
-    // quickSort(0, n - 1);
-    // MergeSort(0, n - 1);
-    // shellSort();
-    // radixSort();
-    // heapSort();
-    show();
-    // showTLX();
     return 0;
 }
