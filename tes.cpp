@@ -7,6 +7,6 @@ int main()
     int x, n = 0;
     cin >> x;
     for (; x > 0; x /= 10)
-        n = n*10 + (x%10);
+        n = n*10 + (x%10);3
     cout << n << endl;
 }
