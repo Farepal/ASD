@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+
 using namespace std;
 
 int n;
 vector<int> arr;
 int countSwap = 0;
-int countComparison = 0; // perbandingan antar data array
+int countComparison = 0;// perbandingan antar data array
 
 struct BST {
     int value;
@@ -24,6 +26,7 @@ void insertBST(struct BST** pointToRoot, int angkaMasukan)
         {
             if (angkaMasukan >= penunjukSimpul->value)
             {
+                countComparison++;
                 if (penunjukSimpul->rightChild != NULL)
                     penunjukSimpul = penunjukSimpul->rightChild;
                 else
@@ -377,6 +380,8 @@ void heapSort()
 }
 void sortByBST()
 {
+    // ini cuma buat array menjadi binary search tree abis itu
+    //traversal pake inorder traversal
     struct BST* root = NULL;
     for (int i = 0; i < n; i++)
         insertBST(&root, arr[i]);
@@ -386,7 +391,10 @@ void sortByBST()
 
 int main()
 {
-    input();
+    // input();
+    for (int i = 0; i < 1000; i++)
+        arr.push_back(rand());
+    n = arr.size();
     vector <int> tempArr = arr;
     cout << "PICK THE NUMBER OF SORT BY THE NUMBER" << endl;
     cout << "By the way, just using non negative number for Radix Sort" << endl;
@@ -394,6 +402,7 @@ int main()
     cout << "4. Quick Sort 5. Merge Sort 6. Shell Sort" << endl;
     cout << "7. Radix Sort 8. Heap Sort 9. Binary Search Tree Sort" << endl;
     int pilihan;
+    show();
     cout << "\nSilahkan pilih angka : "; 
     cin >> pilihan;
     cout << endl;
