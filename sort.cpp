@@ -1,25 +1,28 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
+#include <random>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 int n;
 vector<int> arr;
 int countSwap = 0;
-int countComparison = 0;// perbandingan antar data array
+int countComparison = 0; // perbandingan antar data array
 
-struct BST {
+struct BST
+{
     int value;
     struct BST *leftChild, *rightChild;
 };
-void insertBST(struct BST** pointToRoot, int angkaMasukan)
+void insertBST(struct BST **pointToRoot, int angkaMasukan)
 {
-    struct BST* nodeBaru = (struct BST*)malloc(sizeof(struct BST));
+    struct BST *nodeBaru = (struct BST *)malloc(sizeof(struct BST));
     nodeBaru->value = angkaMasukan;
     nodeBaru->rightChild = NULL;
     nodeBaru->leftChild = NULL;
-    struct BST* penunjukSimpul = *pointToRoot;
+    struct BST *penunjukSimpul = *pointToRoot;
     if (*pointToRoot != NULL)
     {
         while (true)
@@ -54,7 +57,7 @@ void createArrayByInorderTraversal(struct BST *simpul, int *index)
 {
     if (simpul == NULL)
         return;
-    else 
+    else
     {
         createArrayByInorderTraversal(simpul->leftChild, index);
         arr[*index] = simpul->value;
@@ -308,12 +311,12 @@ void radixSort()
 void heapSort()
 {
     // Bulid max Heap
-    //Build max Heap menggunakan algporitma heapify
+    // Build max Heap menggunakan algporitma heapify
     for (int i = n / 2 - 1; i >= 0; i--)
     {
         int largestIndex = i;
-        //di sini largestIndex bakal terus pindah ke bawah
-        //heapify algorithm
+        // di sini largestIndex bakal terus pindah ke bawah
+        // heapify algorithm
         while (true)
         {
             int indexOfRootThatWillSwap = largestIndex;
@@ -348,8 +351,8 @@ void heapSort()
         szTemp--;
         if (szTemp <= 1)
             break;
-        
-        //heapify algorithm kepada array dengan ukuran szTemp
+
+        // heapify algorithm kepada array dengan ukuran szTemp
         int largestIndex = 0;
         while (true)
         {
@@ -381,8 +384,8 @@ void heapSort()
 void sortByBST()
 {
     // ini cuma buat array menjadi binary search tree abis itu
-    //traversal pake inorder traversal
-    struct BST* root = NULL;
+    // traversal pake inorder traversal
+    struct BST *root = NULL;
     for (int i = 0; i < n; i++)
         insertBST(&root, arr[i]);
     int index = 0;
@@ -392,90 +395,29 @@ void sortByBST()
 int main()
 {
     // input();
-    for (int i = 0; i < 1000; i++)
-        arr.push_back(rand());
-    n = arr.size();
-    vector <int> tempArr = arr;
-    cout << "PICK THE NUMBER OF SORT BY THE NUMBER" << endl;
-    cout << "By the way, just using non negative number for Radix Sort" << endl;
-    cout << "1. Bubble Sort 2. Selection Sort 3. Insertion Sort" << endl;
-    cout << "4. Quick Sort 5. Merge Sort 6. Shell Sort" << endl;
-    cout << "7. Radix Sort 8. Heap Sort 9. Binary Search Tree Sort" << endl;
-    int pilihan;
-    show();
-    cout << "\nSilahkan pilih angka : "; 
-    cin >> pilihan;
-    cout << endl;
-    
-    while (true)
+    for (int i = 1; i <= 1000; i++)
     {
-        if (pilihan == 1)
-        {
-            cout << "Bubble Sort" << endl;
-            resetCount();
-            BubbleSort();
-            show();
-        }
-        else if (pilihan == 2)
-        {
-            cout << "Selection Sort" << endl;
-            resetCount();
-            SelectionSort();
-            show();
-        }
-        else if (pilihan == 3)
-        {
-            cout << "Insertion Sort" << endl;
-            resetCount();
-            InsertionSort();
-            show();
-        }
-        else if (pilihan == 4)
-        {
-            cout << "Quick Sort" << endl;
-            resetCount();
-            quickSort(0, n-1);
-            show();
-        }
-        else if (pilihan == 5)
-        {
-            cout << "Merge Sort" << endl;
-            resetCount();
-            MergeSort(0, n-1);
-            show();
-        }
-        else if (pilihan == 6)
-        {
-            cout << "Shell Sort" << endl;
-            resetCount();
-            shellSort();
-            show();
-        }
-        else if (pilihan == 7)
-        {
-            cout << "Radix Sort" << endl;
-            resetCount();
-            radixSort();
-            show();
-        }
-        else if (pilihan == 8)
-        {
-            cout << "Heap Sort" << endl;
-            resetCount();
-            heapSort();
-            show();
-        }
-        else if (pilihan == 9)
-        {
-            cout << "Binary Search Tree Sort" << endl;
-            resetCount();
-            sortByBST();
-            show();
-        }
-        arr = tempArr;
-        cout << "\nSilahkan pilih angka : "; 
-        cin >> pilihan;
-        cout << endl;
+        arr.clear();
+        resetCount();
+        for (int j = 0; j < 10 * i; j++)
+            arr.push_back(rand());
+        n = arr.size();
+
+        auto start = high_resolution_clock::now();
+        // BubbleSort();
+        // InsertionSort();
+        // SelectionSort();
+        // MergeSort(0, n-1);
+        // quickSort(0, n-1);
+        // shellSort();
+        // radixSort();
+        // heapSort();
+        // sortByBST();
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>(stop - start);
+        cout << duration.count() << endl;
+        // show();
     }
+    // show();
     return 0;
 }
