@@ -18,14 +18,14 @@ for i = 1:nx
 end
 x = [x x];
 y = [y1 y2];
-pengelips = U*S * [x; y;];
+pengelips = U*S * [x; y;]
 [mx, nx] = size(pengelips);
 HASIL = U*S*HASIL;
 plot(pengelips(1,1:nx), pengelips(2,1:nx), pengelips(1,1:nx), pengelips(2,1:nx))
 hold on
+
 quiver(0, 0, HASIL(1,1), HASIL(2,1), 'linewidth', 3, 'color', 'r', 'AutoScale','off')
 grid on
 axis equal
 xline(0)
 yline(0)
-HASIL
