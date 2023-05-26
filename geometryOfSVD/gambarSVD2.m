@@ -9,7 +9,7 @@ HASIL = V'*[1; 1;];
 % HASIL = U*HASIL
 JariKuadrat = HASIL(1,1)*HASIL(1,1) + HASIL(2,1) * HASIL(2,1);
 Jari2 = sqrt(JariKuadrat);
-x = -Jari2 : 0.01 : Jari2;
+x = -Jari2 : 0.001 : Jari2;
 x = [x Jari2];
 [mx, nx] = size(x);
 y1 = zeros(1, nx);
@@ -27,3 +27,4 @@ grid on
 axis equal
 xline(0)
 yline(0)
+HASIL
