@@ -14,7 +14,7 @@ y1 = zeros(1, nx);
 y2 = zeros(1, nx);
 for i = 1:nx
     y1(1, i) = sqrt(JariKuadrat - x(1, i)*x(1,i));
-    y2(1, i) = -sqrt(JariKuadrat - x(1, i)*x(1,i));
+    y2(1, i) = -y1(1, i);
 end
 x = [x x];
 y = [y1 y2];
