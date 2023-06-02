@@ -14,18 +14,15 @@ y1 = zeros(1, nx);
 y2 = zeros(1, nx);
 for i = 1:nx
     y1(1, i) = sqrt(JariKuadrat - x(1, i)*x(1,i));
-    y2(1, i) = -y1(1, i);
+    y2(1, i) = -sqrt(JariKuadrat - x(1, i)*x(1,i));
 end
 x = [x x];
 y = [y1 y2];
 pengelips = S*[x; y;];
 [mx, nx] = size(pengelips);
 HASIL = S*HASIL;
-plot(pengelips(1,1:nx), pengelips(2,1:nx), pengelips(1,1:nx), pengelips(2,1:nx))
+plot(pengelips(1,1:nx), pengelips(2,1:nx), pengelips(1,1:nx), pengelips(2,1:nx), 'color', 'y')
 hold on
-quiver(0, 0, HASIL(1,1), HASIL(2,1), 'linewidth', 3, 'color', 'r', 'AutoScale','off')
-grid on
+quiver(0, 0, HASIL(1,1), HASIL(2,1), 'linewidth', 3, 'color', 'b', 'AutoScale','off')
 axis equal
-xline(0)
-yline(0)
 HASIL

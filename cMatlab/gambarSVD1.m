@@ -18,10 +18,9 @@ for i = 1:nx
 end
 x = [x x];
 y = [y1 y2];
-plot(x, y, x, y)
+plot(x, y, x, y, 'color', 'y')
 hold on
-quiver(zeros(1,2), zeros(1,2), V(1, 1:2), V(2,1:2), 'linewidth', 3, 'color', 'r', 'AutoScale','off')
-grid on
+quiver(zeros(1,2), zeros(1,2), V(1, 1:2), V(2,1:2), 'linewidth', 3, 'color', 'b', 'AutoScale','off')
 axis equal
 xline(0)
 yline(0)
