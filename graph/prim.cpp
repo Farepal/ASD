@@ -16,13 +16,7 @@ int adjacencyMatrix[jumlahVertex][jumlahVertex] =
     {0, 0, 0, 4, 6, 1, 0}
 };
 
-struct OneEdges
+int main()
 {
-    int sourceVertex, destinationVertex, weight;
-};
-
-bool comparisonOfEdges (OneEdges A, OneEdges B)
-{
-    return (A.weight < B.weight);
+    
 }
-
