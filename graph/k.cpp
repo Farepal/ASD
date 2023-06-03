@@ -12,7 +12,7 @@ int adjacencyMatrix[jumlahVertex][jumlahVertex] = {
     {1, 3, 2, 0, 7, 8, 4},
     {0, 10, 0, 7, 0, 0, 6},
     {0, 0, 5, 8, 0, 0, 1},
-    {0, 0, 0, 4, 6, 1, 0}};
+    {0, 0, 0, 4, 6, 1, 0}}; 
 
 struct OneEdges
 {
@@ -84,10 +84,17 @@ int main()
     for (int i = 0; i < jumlahVertex; i++)
         root[i] = i;
     for (int i = 0; i < jumlahEdges; i++)
-        cout << "v" << graph[i].sourceVertex +1 << " - v" << graph[i].destinationVertex +1 << " " << graph[i].weight << endl;
+        cout << "v" << graph[i].sourceVertex << " - v" << graph[i].destinationVertex  << " " << graph[i].weight << endl;
     cout << endl;
-    for (int i = 0, hasilEdges = 0; i < jumlahEdges && hasilEdges < jumlahVertex - 1; i++)
+    int hasilEdges = 0;
+    for (int i = 0; i < jumlahEdges && hasilEdges < jumlahVertex-1; i++)
     {
+        cout << i+1 << " PAS\t\t";
+        for (int i = 0; i < jumlahVertex; i++)
+            cout << "v" << i+1 << " ";
+        cout << endl;
+        cout << "v" << graph[i].sourceVertex+1 << " - v" << graph[i].destinationVertex+1  << " " << graph[i].weight << "\t";
+        
         if (checkCycle(graph[i].sourceVertex, graph[i].destinationVertex))
         {
             int rootOfVertex1 = find_root(graph[i].sourceVertex);
@@ -95,7 +102,14 @@ int main()
             //vertex destinasi biasanya bakal menjadi root di subtree
             MST.push_back(graph[i]);
             unionSubtree(rootOfVertex1, rootOfVertex2);
-            
+            cetakRoot();
+            cout << "BERHASIL" << endl << endl;
+            hasilEdges++;
+        }
+        else
+        {
+            cetakRoot();
+            cout << "GAGAL" << endl << endl;
         }
     }
     cout << MST.size() << endl;
