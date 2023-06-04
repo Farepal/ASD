@@ -27,27 +27,25 @@ int main()
     for (int jumlahEdges = 0; jumlahEdges <= jumlahVertex - 1; jumlahEdges++)
     {
         //find the minimum key
-        int min = INFF, keVertex;
+        int min = INFF, menujuIndeks;
         for (int i = 0; i < jumlahVertex; i++)
         {
             if (key[i] < min && !visited[i])
-                min = key[i], keVertex = i;
+                min = key[i], menujuIndeks = i;
         }
-        visited[keVertex] = true;
+        visited[menujuIndeks] = true;
+        cout << "vkepilih " << menujuIndeks +1 << endl;
+        cout << min << endl;
         //UPDATED KEY
         for (int j = 0; j < jumlahVertex; j++)
         {
-            if (!visited[j] && adjacencyMatrix[keVertex][j] != 0 &&
-            adjacencyMatrix[keVertex][j] < key[j])
-                parent[j] = keVertex, key[j] = adjacencyMatrix[keVertex][j];
+            if (!visited[j] && adjacencyMatrix[menujuIndeks][j] != 0 &&
+            adjacencyMatrix[menujuIndeks][j] < key[j])
+                parent[j] = menujuIndeks, key[j] = adjacencyMatrix[menujuIndeks][j];
         }
+        for (int j = 0; j < jumlahVertex; j++)
+            cout << key[j] << " ";
+        cout << endl;
     }
-    int TotalBobot = 0;
-    for(int i = 1; i < jumlahVertex; i++)
-    {
-        cout << "v" << parent[i]+1 << " - v" << i+1 << " w: " << key[i] << endl;
-        TotalBobot += adjacencyMatrix[i][parent[i]];
-    }
-    cout << "Total Bobot : " << TotalBobot << endl;
     return 0;
 }

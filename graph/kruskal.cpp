@@ -83,9 +83,6 @@ int main()
     //DECLARE array ROOT untuk
     for (int i = 0; i < jumlahVertex; i++)
         root[i] = i;
-    for (int i = 0; i < jumlahEdges; i++)
-        cout << "v" << graph[i].sourceVertex +1 << " - v" << graph[i].destinationVertex +1 << " " << graph[i].weight << endl;
-    cout << endl;
     for (int i = 0, hasilEdges = 0; i < jumlahEdges && hasilEdges < jumlahVertex - 1; i++)
     {
         if (checkCycle(graph[i].sourceVertex, graph[i].destinationVertex))
@@ -98,9 +95,12 @@ int main()
             
         }
     }
-    cout << MST.size() << endl;
-
+    int TotalBobot = 0;
     for (int i = 0; i < MST.size(); i++)
-        cout << "v" << MST[i].sourceVertex + 1 << " - v" << MST[i].destinationVertex + 1 << " " << MST[i].weight << endl;
+    {
+        cout << "v" << MST[i].sourceVertex + 1 << " - v" << MST[i].destinationVertex + 1 << " w: " << MST[i].weight << endl;
+        TotalBobot += MST[i].weight;
+    }
+    cout << "Total Bobot : " << TotalBobot << endl;
     return 0;
 }
