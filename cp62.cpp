@@ -19,8 +19,10 @@ int main()
         getline(cin, emp[i].name);
         cout << " Kode: " << endl;
         cin >> emp[i].emp_no;
+        cin.ignore(256, '\n');
         cout << " Gaji:" << endl;
         cin >> emp[i].salary;
+        cin.ignore(256, '\n');
     }
     cout << "\n";
     cout << "Data Pegawai\n";
