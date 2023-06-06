@@ -15,6 +15,27 @@ int adjacencyMatrix[jumlahVertex][jumlahVertex] = {
     {0, 0, 0, 4, 6, 1, 0}
 };
 
+int findTheMinimumKey(int *key, bool* visited)
+{
+    int min = INFF, keVertex;
+    for (int i = 0; i < jumlahVertex; i++)
+    {
+        if (key[i] < min && !visited[i])
+            min = key[i], keVertex = i;
+    }
+    return keVertex;
+}
+
+void updateKey(int *key, bool *visited, int *parent, int keVertex)
+{
+    for (int j = 0; j < jumlahVertex; j++)
+        {
+            if (!visited[j] && adjacencyMatrix[keVertex][j] != 0 &&
+            adjacencyMatrix[keVertex][j] < key[j])
+                parent[j] = keVertex, key[j] = adjacencyMatrix[keVertex][j];
+        }
+}
+
 int main()
 {
     bool visited[jumlahVertex];
@@ -22,28 +43,21 @@ int main()
     for (int i = 0; i < jumlahVertex; i++)
         key[i] = INFF, visited[i] = false;
     int jumlahEdges = 0;
+    //START ALGORITHM
     parent[0] = -1, key[0] = 0;
     int bobot = 0;
     for (int jumlahEdges = 0; jumlahEdges <= jumlahVertex - 1; jumlahEdges++)
     {
         //find the minimum key
-        int min = INFF, keVertex;
-        for (int i = 0; i < jumlahVertex; i++)
-        {
-            if (key[i] < min && !visited[i])
-                min = key[i], keVertex = i;
-        }
+        int keVertex = findTheMinimumKey(key, visited);
         visited[keVertex] = true;
         //UPDATED KEY
-        for (int j = 0; j < jumlahVertex; j++)
-        {
-            if (!visited[j] && adjacencyMatrix[keVertex][j] != 0 &&
-            adjacencyMatrix[keVertex][j] < key[j])
-                parent[j] = keVertex, key[j] = adjacencyMatrix[keVertex][j];
-        }
+        updateKey(key, visited, parent, keVertex);
     }
+    //END ALGORITHM
+    cout << endl;
     int TotalBobot = 0;
-    for(int i = 1; i < jumlahVertex; i++)
+    for(int i = 0; i < jumlahVertex; i++)
     {
         cout << "v" << parent[i]+1 << " - v" << i+1 << " w: " << key[i] << endl;
         TotalBobot += adjacencyMatrix[i][parent[i]];

@@ -27,15 +27,15 @@ bool comparisonOfEdges (OneEdges A, OneEdges B)
 vector<OneEdges> graph;//graph awal
 vector <OneEdges> MST;//graph hasil MST
 int jumlahEdges;//jumlah garis
-int root[jumlahVertex];
+int Parent[jumlahVertex];
 
 int find_root(int numberOfVertex)
 {
-    if (root[numberOfVertex] == numberOfVertex)
+    if (Parent[numberOfVertex] == numberOfVertex)
     {
         return numberOfVertex;
     }
-    return find_root(root[numberOfVertex]);
+    return find_root(Parent[numberOfVertex]);
 }
 
 bool checkCycle(int sVertex, int dVertex)
@@ -47,14 +47,7 @@ bool checkCycle(int sVertex, int dVertex)
 
 void unionSubtree(int rootOfSubtree1, int rootOfSubtree2)
 {
-    root[rootOfSubtree1] = root[rootOfSubtree2];
-}
-
-void cetakRoot()
-{
-    for (int i = 0; i < jumlahVertex; i++)
-        cout << "v" << root[i]+1 << " ";
-    cout << endl;
+    Parent[rootOfSubtree1] = Parent[rootOfSubtree2];
 }
 
 int main()
@@ -82,7 +75,7 @@ int main()
 
     //DECLARE array ROOT untuk
     for (int i = 0; i < jumlahVertex; i++)
-        root[i] = i;
+        Parent[i] = i;
     for (int i = 0, hasilEdges = 0; i < jumlahEdges && hasilEdges < jumlahVertex - 1; i++)
     {
         if (checkCycle(graph[i].sourceVertex, graph[i].destinationVertex))
@@ -92,9 +85,9 @@ int main()
             //vertex destinasi biasanya bakal menjadi root di subtree
             MST.push_back(graph[i]);
             unionSubtree(rootOfVertex1, rootOfVertex2);
-            
         }
     }
+    //END ALGORITHM
     int TotalBobot = 0;
     for (int i = 0; i < MST.size(); i++)
     {
