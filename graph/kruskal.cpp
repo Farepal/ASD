@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 #define jumlahVertex 7
 int adjacencyMatrix[jumlahVertex][jumlahVertex] = {
@@ -71,6 +73,7 @@ int main()
     jumlahEdges = graph.size();
 
     ////////////KRUSKAL ALGORITHM////////////////////////
+    auto start = high_resolution_clock::now();
     sort (graph.begin(), graph.end(), comparisonOfEdges);
 
     //DECLARE array ROOT untuk
@@ -88,6 +91,9 @@ int main()
         }
     }
     //END ALGORITHM
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cout << duration.count() << " nanoseconds" << endl;
     int TotalBobot = 0;
     for (int i = 0; i < MST.size(); i++)
     {

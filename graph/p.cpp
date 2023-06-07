@@ -41,7 +41,7 @@ void printVisited(bool* visited)
     cout << endl << "LIST VERTEX YG SUDAH DIKUNJUNGI" << endl;
     for (int i = 0; i < jumlahVertex; i++)
     {
-        cout << "v" << i+1 << " ";
+        cout << i+1 << "  ";
     }
     cout << endl;
     for (int i = 0; i < jumlahVertex; i++)
@@ -57,22 +57,22 @@ void printVisited(bool* visited)
 void printUpdateKey(int key[], int parent[])
 {
     for (int i = 0; i < jumlahVertex; i++)
-        (parent[i] > 100 or parent[i] == -1 ? cout << " X " : cout << "v" << parent[i]+1 << " ");
+        (parent[i] > 1000 or parent[i] == -1 ? cout << "X  " : cout << parent[i]+1 << "  ");
     cout << "\tparent" << endl;
     for (int i = 0; i < jumlahVertex; i++)
-        cout << " | ";
+        cout << "|  ";
     cout << endl;
     for (int i = 0; i < jumlahVertex; i++)
-        cout << " | ";
+        cout << "|  ";
     cout << endl;
     for (int i = 0; i < jumlahVertex; i++)
-        cout << " | ";
+        cout << "|  ";
     cout << endl;
     for (int i = 0; i < jumlahVertex; i++)
-        cout << " V ";
+        cout << "V  ";
     cout << endl;
     for (int i = 0; i < jumlahVertex; i++)
-        cout << "v" << i+1 << " ";
+        cout << i+1 << "  ";
     cout << endl;
     for (int i = 0; i < jumlahVertex; i++)
         (key[i] > 100 ? cout << "IF " : cout << key[i] << "  ");
@@ -89,22 +89,35 @@ int main()
     //START ALGORITHM
     parent[0] = -1, key[0] = 0;
     int bobot = 0;
+        int TotalBobot = 0;
     for (int jumlahEdges = 0; jumlahEdges <= jumlahVertex - 1; jumlahEdges++)
     {
         //find the minimum key
+        cout << "\nSTEP KE-" << jumlahEdges + 1 << endl;
         printVisited(visited);
         printUpdateKey(key, parent);
         int keVertex = findTheMinimumKey(key, visited);
-        cout << endl << "vertex yang kepilih : v" << keVertex+1 << endl << endl; 
+        cout << endl << "vertex yang kepilih : v" << keVertex+1 << endl << endl;
+        if (jumlahEdges > 0)
+            cout << "v" << parent[keVertex]+1 << " - v" << keVertex+1 << " w: " << key[keVertex] << endl << endl;
+        cout << "Vertex around v" << keVertex+1 << endl;
+        for (int i = 0; i < jumlahVertex; i++)
+            cout << i+1 << "  ";
+        cout << endl;
+        for (int i = 0; i < jumlahVertex; i++)
+            (adjacencyMatrix[keVertex][i] > 9 ? cout << adjacencyMatrix[keVertex][i] << " " : cout << adjacencyMatrix[keVertex][i] << "  ");
+        cout << endl;
+        cout << endl;
         visited[keVertex] = true;
         //UPDATED KEY
+        cout << "===UPDATE KEY===" << endl;
         updateKey(key, visited, parent, keVertex);
         printUpdateKey(key, parent);
     }
     //END ALGORITHM
     cout << endl;
-    int TotalBobot = 0;
-    for(int i = 0; i < jumlahVertex; i++)
+
+    for(int i = 1; i < jumlahVertex; i++)
     {
         cout << "v" << parent[i]+1 << " - v" << i+1 << " w: " << key[i] << endl;
         TotalBobot += adjacencyMatrix[i][parent[i]];
