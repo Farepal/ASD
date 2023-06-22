@@ -65,6 +65,30 @@ void createArrayByInorderTraversal(struct BST *simpul, int *index)
         createArrayByInorderTraversal(simpul->rightChild, index);
     }
 }
+void createArrayByPreorderTraversal(struct BST *simpul, int *index)
+{
+    if (simpul == NULL)
+        return;
+    else
+    {
+        arr[*index] = simpul->value;
+        *index = *index + 1;
+        createArrayByInorderTraversal(simpul->leftChild, index);
+        createArrayByInorderTraversal(simpul->rightChild, index);
+    }
+}
+void createArrayByPostorderTraversal(struct BST *simpul, int *index)
+{
+    if (simpul == NULL)
+        return;
+    else
+    {
+        createArrayByInorderTraversal(simpul->leftChild, index);
+        createArrayByInorderTraversal(simpul->rightChild, index);
+        arr[*index] = simpul->value;
+        *index = *index + 1;
+    }
+}
 
 void input()
 {
@@ -164,11 +188,11 @@ void SelectionSort()
 void InsertionSort()
 {
     for (int i = 1; i < n; i++)
-        for (int j = i - 1; j >= 0; j--)
+        for (int j = i; j >= 1; j--)
         {
             ++countComparison;
-            if (arr[j] > arr[j + 1])
-                swap(&arr[j], &arr[j + 1]);
+            if (arr[j] < arr[j-1])
+                swap(&arr[j], &arr[j-1]);
             else
                 break;
         }
@@ -223,6 +247,29 @@ void quickSort(int left, int right)
     // Operasi partisi,
     // operasi mencari indeks pivot, menempatkan subarray yg lebih kecil dari pivot di kiri
     // dan menempatkan subarray yang lebih besar dari pivot di kanan
+    if (left <= right)
+    {
+        int pivot = arr[right];
+        int indexPositionShouldBe = left;  // pivoIndex yang akan digantikan
+        for (int i = left; i < right; i++) // sampai right, karena right itu indeks pivot
+        {
+            countComparison++;
+            if (arr[i] > pivot)
+            {
+                swap(&arr[indexPositionShouldBe], &arr[i]);
+                indexPositionShouldBe++;
+            }
+        }
+        swap(&arr[indexPositionShouldBe], &arr[right]);
+        quickSort(left, indexPositionShouldBe - 1);
+        quickSort(indexPositionShouldBe + 1, right);
+    }
+}
+void PquickSort(int left, int right)
+{
+    // Operasi partisi,
+    // operasi mencari indeks pivot, menempatkan subarray yg lebih kecil dari pivot di kiri
+    // dan menempatkan subarray yang lebih besar dari pivot di kanan
     if (left < right)
     {
         int pivot = arr[right];
@@ -236,9 +283,12 @@ void quickSort(int left, int right)
                 indexPositionShouldBe++;
             }
         }
+        for (int i = 0; i < n; i++)
+            cout << arr[i] << " ";
+        cout << endl;
         swap(&arr[indexPositionShouldBe], &arr[right]);
-        quickSort(left, indexPositionShouldBe - 1);
-        quickSort(indexPositionShouldBe + 1, right);
+        PquickSort(left, indexPositionShouldBe - 1);
+        PquickSort(indexPositionShouldBe + 1, right);
     }
 }
 void countingSort(int k)
@@ -257,6 +307,9 @@ void countingSort(int k)
         temp[gelas[arr[j]] - 1] = arr[j];
         gelas[arr[j]]--;
     }
+    for (int i = 0; i < k; i++)
+        cout << gelas[i] << " ";
+    cout << endl;
     arr = temp;
 }
 void shellSort()
@@ -394,30 +447,34 @@ void sortByBST()
 
 int main()
 {
-    // input();
-    for (int i = 1; i <= 1000; i++)
-    {
-        arr.clear();
-        resetCount();
-        for (int j = 0; j < 10 * i; j++)
-            arr.push_back(rand());
-        n = arr.size();
+    input();
+    // for (int i = 1; i <= 1000; i++)
+    // {
+    //     arr.clear();
+    //     resetCount();
+    //     for (int j = 0; j < 10 * i; j++)
+    //         arr.push_back(rand());
+    //     n = arr.size();
 
-        auto start = high_resolution_clock::now();
-        // BubbleSort();    
-        // InsertionSort();
-        // SelectionSort();
-        // MergeSort(0, n-1);
-        // quickSort(0, n-1);
-        // shellSort();
-        // radixSort();
-        // heapSort();
-        // sortByBST();
-        auto stop = high_resolution_clock::now();
-        auto duration = duration_cast<microseconds>(stop - start);
-        cout << duration.count() << endl;
-        // show();
-    }
-    // show();
+    //     auto start = high_resolution_clock::now();
+    //     // BubbleSort();    
+    //     // InsertionSort();
+    //     // SelectionSort();
+    //     // MergeSort(0, n-1);
+    //     // quickSort(0, n-1);
+    //     // shellSort();
+    //     // radixSort();
+    //     // heapSort();
+    //     // sortByBST();
+    //     auto stop = high_resolution_clock::now();
+    //     auto duration = duration_cast<microseconds>(stop - start);
+    //     cout << duration.count() << endl;
+    //     // show();
+    // }
+    // BubbleSort();
+    // quickSort(0, n-1);
+    // InsertionSort();
+    sortByBST();
+    show();
     return 0;
 }
