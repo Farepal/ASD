@@ -3,35 +3,72 @@
 #include <vector>
 
 using namespace std;
-vector <int> enc;
-vector <int> flag(38);
-
-void decode(int index)
+void showDiagonal(vector<vector<int>> x)
 {
-    if (index == 38)
+    for (int i = 0;i  <x.size(); i++)
     {
-        bool flag = true;
-        for (int i = 0; i < 38; i+=2)
+        for (int j = 0; j <x[i].size(); j++)
         {
-            if (((flag[i] << 8)  + flag[i+1]) == enc[i/2])
+            if (i == j)
+                cout << x[i][j] << " ";
+            else    
+                cout << 0 << " ";
         }
+        cout << endl;
     }
-    else
+    cout << endl;a
+}
+
+void lower(vector<vector<int>> x)
+{
+    for (int i = 0;i  <x.size(); i++)
     {
-        for (int i = 0; i <= 122; i++)
+        for (int j = 0; j <x[i].size(); j++)
         {
-            
+            if (i >= j)
+                cout << x[i][j] << " ";
+            else    
+                cout << 0 << " ";
         }
+        cout << endl;
     }
+    cout << endl;
+}
+
+void upper(vector<vector<int>> x)
+{
+    for (int i = 0;i  <x.size(); i++)
+    {
+        for (int j = 0; j <x[i].size(); j++)
+        {
+            if (i <= j)
+                cout << x[i][j] << " ";
+            else    
+                cout << 0 << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 int main()
 {
-    for (int i =0;i < 19;i++)
+    int m,n;
+    cin >> m >> n;
+
+    vector<vector<int>> x;
+    for (int i = 0;i  <m; i++)
     {
-        int x;
-        cin >> x;
-        enc.push_back(x);
+        vector <int> t(n);
+        for (int j = 0; j <n; j++)
+        {
+            cin >> t[j];
+        }
+        x.push_back(t);
     }
+    cout << endl;
+    showDiagonal(x);
+    lower(x);
+    upper(x);
     return 0;
 }

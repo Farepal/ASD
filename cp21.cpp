@@ -10,10 +10,10 @@ int main()
 
     for (x = 1; x <= n; x++)
     {
-        for (y = 1; y <= n; num++, y++)
+        for (y = 1; y <= n; n um++, y++)
             cout << num;
         cout << "\n";
     }
-    
+
     return 0;
 }
